@@ -7,7 +7,6 @@ services:
     expose:
       - "80"
     environment: 
-      - VITE_API_BASE_URL=https://insta.api.usomi.de
       # use letsencrypt for ssl
       - VIRTUAL_HOST=insta.usomi.de
       - VIRTUAL_PORT=80
