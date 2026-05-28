@@ -79,7 +79,7 @@ export function FeedPage() {
       )}
 
       {!isLoading && !isError && images.length > 0 && (
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
           {images.map((image) => (
             <ImageItem key={image.id} image={image} />
           ))}
