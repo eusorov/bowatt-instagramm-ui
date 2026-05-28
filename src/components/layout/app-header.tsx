@@ -10,7 +10,7 @@ export function AppHeader() {
     <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-14 max-w-[470px] items-center justify-between px-4 lg:max-w-7xl">
         <Link to="/" className="text-sm font-semibold tracking-tight">
-          bowatt
+          Instagramm
         </Link>
         <nav className="flex items-center gap-4">
           <Link
