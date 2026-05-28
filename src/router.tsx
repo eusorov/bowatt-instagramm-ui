@@ -1,11 +1,10 @@
 import {
-  Outlet,
   createRootRoute,
   createRoute,
   createRouter,
 } from '@tanstack/react-router'
 
-import { AppHeader } from '@/components/layout/app-header'
+import { RootLayout } from '@/components/layout/root-layout'
 import { FeedPage } from '@/pages/feed-page'
 import { UploadPage } from '@/pages/upload-page'
 
@@ -33,15 +32,4 @@ declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }
-}
-
-function RootLayout() {
-  return (
-    <div className="min-h-svh bg-background">
-      <AppHeader />
-      <main className="mx-auto max-w-[470px] px-4 py-6 lg:max-w-7xl">
-        <Outlet />
-      </main>
-    </div>
-  )
 }
