@@ -1,6 +1,6 @@
 # Override for deployment: use pre-built image from registry instead of building.
 services:
-  app:
+  ui:
     image: ${IMAGE_FULL_NAME}
     build: !reset null
     ports: !reset null

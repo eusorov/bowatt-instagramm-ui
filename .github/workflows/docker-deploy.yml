@@ -49,6 +49,5 @@ jobs:
             export IMAGE_FULL_NAME="${{ inputs.IMAGE_FULL_NAME }}"
             cd "$HOME/${{ inputs.IMAGE_SHORT_NAME }}"
             
-            docker compose -f docker-compose.yml -f docker-compose.deploy.yml stop app || true
-            docker compose -f docker-compose.yml -f docker-compose.deploy.yml pull app
-            docker compose -f docker-compose.yml -f docker-compose.deploy.yml up -d --no-deps --force-recreate app
+            docker stop bowatt-instagramm-ui || true
+            docker compose -f docker-compose.yml -f docker-compose.deploy.yml up -d --no-deps --force-recreate ui
