@@ -21,7 +21,6 @@ The backend can notify frontend about new image via websockets, then the tanstac
 
 ## Out of scope
 - user authentification
-- SSL 
 - server / client security with JWT
 - progress bar 
 
@@ -63,8 +62,6 @@ pnpm build
 pnpm preview
 ```
 
-
-
 For production when UI and API are on different origins, set:
 
 ```bash
@@ -72,10 +69,5 @@ VITE_API_BASE_URL=http://localhost:8080 pnpm build
 ```
 
 ## Docker
-There is a Dockerfile and docker compose file to create / run the UI in an container. The backend API still needs to be run before. 
+There is a Dockerfile and docker compose file to create / run the UI in an container. The backend API still needs to be run before. There is a docker-compose.deploy.yml file to deploy on [VPS](https://insta.usomi.de). It uses also letsencrypt for handling SSL. 
 
-## Features
-
-- Vertical image feed with infinite scroll
-- Image upload at `/upload`
-- Live feed updates via STOMP WebSocket (`/topic/images`, event `IMAGE_CREATED`)
