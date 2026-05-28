@@ -12,6 +12,13 @@ The frontend is a simple React + Vite setup. The API uses Tanstack to fetch and 
 The images are coming paginated from API, with infitive scroll next page is fetched.
 The backend can notify frontend about new image via websockets, then the tanstack query is invalidated.
 
+## Features:
+- user can upload new images with a title and tags.
+- user can see uploaded images with their titles and tags. The feed is updated live via a websocket.
+- user can filter the feed by tags.
+- Dockerfile is created
+- there is an infinite-scroll feed
+
 ## Out of scope
 - user authentification
 - SSL 
