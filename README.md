@@ -10,6 +10,7 @@ Instagram-style image feed backed by [bowatt-instagramm-api](https://github.com/
 ## Decisions
 The frontend is a simple React + Vite setup. The API uses Tanstack to fetch and cache data.
 The images are coming paginated from API, with infitive scroll next page is fetched.
+The backend can notify frontend about new image via websockets, then the tanstack query is invalidated.
 
 ## Out of scope
 - user authentification
