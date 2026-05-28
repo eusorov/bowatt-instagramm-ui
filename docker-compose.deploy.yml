@@ -1,0 +1,21 @@
+# Override for deployment: use pre-built image from registry instead of building.
+services:
+  app:
+    image: ${IMAGE_FULL_NAME}
+    build: !reset null
+    ports: !reset null
+    expose:
+      - "80"
+    environment: 
+      - VITE_API_BASE_URL=https://insta.api.usomi.de
+      # use letsencrypt for ssl
+      - VIRTUAL_HOST=insta.usomi.de
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=insta.usomi.de
+    networks:
+      - nginx_proxy_net
+
+# this is external network for nginx proxy which handles SSL termination and routing to the app
+networks:
+  nginx_proxy_net:
+    external: true
