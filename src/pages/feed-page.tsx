@@ -35,11 +35,7 @@ export function FeedPage() {
 
   return (
     <div className="space-y-6">
-      <TagFilter
-        activeTags={activeTags}
-        onApply={setActiveTags}
-        onClear={() => setActiveTags([])}
-      />
+      <TagFilter activeTags={activeTags} onChange={setActiveTags} />
 
       {isLoading && <FeedSkeleton />}
 

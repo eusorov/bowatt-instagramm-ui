@@ -1,67 +1,82 @@
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-
+import { useQuery } from '@tanstack/react-query'
 import { Button } from '@radix-ui/themes'
-import { Filter, X } from 'lucide-react'
-import { inputClassName } from '@/components/ui/form-styles'
-import { parseTagsInput, serializeTags } from '@/lib/utils'
+
+import { fetchTags } from '@/lib/api/tags'
+import { cn } from '@/lib/utils'
 
 interface TagFilterProps {
   activeTags: string[]
-  onApply: (tags: string[]) => void
-  onClear: () => void
+  onChange: (tags: string[]) => void
 }
 
-interface TagFilterFormValues {
-  tags: string
-}
-
-export function TagFilter({ activeTags, onApply, onClear }: TagFilterProps) {
-  const { register, handleSubmit, reset, watch } = useForm<TagFilterFormValues>({
-    defaultValues: {
-      tags: serializeTags(activeTags),
-    },
+export function TagFilter({ activeTags, onChange }: TagFilterProps) {
+  const {
+    data: tags = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['tags'],
+    queryFn: fetchTags,
   })
 
-  const tagsValue = watch('tags')
+  function toggleTag(tagName: string) {
+    if (activeTags.includes(tagName)) {
+      onChange(activeTags.filter((tag) => tag !== tagName))
+      return
+    }
 
-  useEffect(() => {
-    reset({ tags: serializeTags(activeTags) })
-  }, [activeTags, reset])
+    onChange([...activeTags, tagName])
+  }
 
   return (
-    <form
-      className="space-y-3 rounded-lg border border-border bg-muted/30 p-4"
-      onSubmit={handleSubmit(({ tags }) => onApply(parseTagsInput(tags)))}
-    >
-      <label className="block space-y-1.5">
-        <span className="text-sm font-medium">Filter by tags</span>
-        <input
-          type="text"
-          placeholder="beach, summer"
-          className={inputClassName}
-          {...register('tags')}
-        />
-      </label>
-      <div className="flex gap-2">
-        <Button type="submit" size="2">
-          <Filter size={16} />
-          Apply
-        </Button>
+    <div className="space-y-3 rounded-lg border border-border bg-muted/30 p-4">
+      <span className="text-sm font-medium">Filter by tags</span>
+
+      <div className="flex flex-wrap gap-2">
         <Button
           type="button"
-          variant="outline"
-          size="2"
-          onClick={() => {
-            reset({ tags: '' })
-            onClear()
-          }}
-          disabled={activeTags.length === 0 && tagsValue.length === 0}
+          size="1"
+          variant={activeTags.length === 0 ? 'solid' : 'outline'}
+          onClick={() => onChange([])}
         >
-          <X size={16} />
-          Clear
+          All
         </Button>
+
+        {isLoading && (
+          <span className="self-center text-sm text-muted-foreground">
+            Loading tags...
+          </span>
+        )}
+
+        {isError && (
+          <span className="self-center text-sm text-muted-foreground">
+            Failed to load tags
+          </span>
+        )}
+
+        {!isLoading &&
+          !isError &&
+          tags.map((tag) => {
+            const isSelected = activeTags.includes(tag.name)
+
+            return (
+              <button
+                key={tag.id}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => toggleTag(tag.name)}
+                className={cn(
+                  'rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors',
+                  isSelected
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-accent text-accent-foreground hover:bg-accent/80',
+                )}
+              >
+                #{tag.name}
+              </button>
+            )
+          })}
       </div>
-    </form>
+    </div>
   )
 }
