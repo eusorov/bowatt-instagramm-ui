@@ -10,6 +10,8 @@ import { uploadImage } from '@/lib/api/images'
 import { parseTagsInput } from '@/lib/utils'
 import { cn } from '@/lib/utils'
 
+const MAX_TAGS = 10
+
 interface UploadFormValues {
   file: FileList | null
   title: string
@@ -112,12 +114,28 @@ export function UploadPage() {
           <input
             type="text"
             placeholder="beach, summer"
-            className={inputClassName}
-            {...register('tags')}
+            aria-invalid={errors.tags ? true : undefined}
+            className={cn(
+              inputClassName,
+              errors.tags && 'border-red-500',
+            )}
+            {...register('tags', {
+              validate: (value) => {
+                const tagCount = parseTagsInput(value).length
+                return (
+                  tagCount <= MAX_TAGS ||
+                  `You can add at most ${MAX_TAGS} tags.`
+                )
+              },
+            })}
           />
-          <span className="text-xs text-muted-foreground">
-            Comma-separated tags
-          </span>
+          {errors.tags ? (
+            <p className={fieldErrorClassName}>{errors.tags.message}</p>
+          ) : (
+            <span className="text-xs text-muted-foreground">
+              Comma-separated tags (max {MAX_TAGS})
+            </span>
+          )}
         </label>
 
         <div className="flex gap-2 pt-2">
